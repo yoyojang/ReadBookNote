@@ -47,9 +47,58 @@ bootstrapping
 >回归任务最常用的性能度量是**均方误差**
 
 ### 3.1 错误率与精度
+- 错误率
+$$
+\begin{gathered}
+E(f;D)= \frac{1}{m} \sum_{i=1}^{m}\prod(f(x_i\not =y_i))\\
+E(f;D)=\int_{x\sim D}\prod(f(x\not =y)p(x)dx
+\end{gathered}
+$$
+
+
+- 精度
+$$
+\begin{gathered}
+acc(f;D)=\frac{1}{m} \sum_{i=1}^{m}\prod(f(x_i =y_i))\\
+= 1-E(f;D)\\
+\\
+acc(f;D)=\int_{x\sim D}\prod(f(x =y)p(x)dx\\
+= 1-E(f;D)
+\end{gathered}
+$$
+
 
 ### 3.2 查准率、查全率与$F1$
+- 查准率，检索出的信息中有多少比例是用户感兴趣的
+- 查全率，用户感兴趣的信息有多少被检索出来了
 
+真实情况 | 预测结果 | 预测结果
+-|-|-
+真实情况 | 正例 | 反例
+正例 | TP（真正例） | FN（假反例）
+反例 | FP（假正例） |TN（真反例）
+
+查准率P
+$$
+P=\frac{TP}{TP+FP}
+$$
+查全率R
+$$
+R=\frac{TP}{TP+FN}
+$$
+根据公式可知，查准率高时，查全率往往偏低；查全率高时，往往查准率偏低。
+因此，设计了综合考虑查准率、查全率的性能度量：
+- **平衡点 BEP**,他是$P=R$时的取值。
+- $F1$基于两者的调和平均$\frac{1}{F1}=\frac{1}{2}\big(\frac{1}{P}+\frac{1}{R}\big)$, $$F1=\frac{2\times P \times R}{P+R}=\frac{2 \times TP}{样例总数+TP-TN}$$
+- $F_\beta$,加权调和平均
+$$F_\beta=\frac{(1+\beta^2)\times P \times R}{(\beta^2 \times P)+R}$$
 ### 3.3 ROC 与 AUC
-
+- ROC曲线，综合考虑学习器在不同任务下的“期望泛化性能”。纵轴——“真正例率”TPR，横轴——“假正例率”FPR
+$$
+\begin{gathered}
+TPR=\frac{TP}{TP+FN}\\
+FPR=\frac{FP}{TP+FN}
+\end{gathered}
+$$
+**AUC**,ROC图的面积
 ### 3.4 代价敏感错误率与代价曲线
